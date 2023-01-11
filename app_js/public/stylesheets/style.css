@@ -1,8 +1,13 @@
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 
 body {
-    padding: 50px;
+    margin: 0;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.page_wrapper {
+    background-size:cover;
+    min-height: 100vh;
 }
 
 h1 {
@@ -11,28 +16,34 @@ h1 {
     font-size: 50px;
 }
 
-body {
+.image_wrapper {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
 }
 
+.description_wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
 .main-text {
     font-size: 80px;
-    margin-top: 100px;
+    margin-top: 0;
     margin-bottom: 0;
 }
 
 .post {
-    width: 300px;
+    width: 256px;
     height: 400px;
-    background-color: brown;
+    background-color: white;
     border: solid;
-    box-shadow: 10px 5px 5px red;
+    border-radius: 20px;
+    margin: 10px;
 }
 
 .post p{
-    width: 250px;
+    width: 240px;
     margin: 12px;
     font-size: 18px;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
@@ -40,9 +51,10 @@ body {
     justify-content: center;
 }
 
-img {
-    width: 300px;
-    height: 300px;
+.post > img {
+    width: 256px;
+    height: 256px;
+    border-radius: 15px 15px 0 0;
 }
 
 a {

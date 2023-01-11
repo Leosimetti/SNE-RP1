@@ -6,8 +6,11 @@ html
         link(rel='icon', href='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/cat-face_1f431.png')
         audio(controls='', autoplay='autoplay')
             source(src=audio_src, type='audio/mpeg')
-    body(style="background-image:url(" + img_url + ") ;")
-        each post in posts
-            block content
-        p(class="main-text")="CATZ ARE COOL!!!!"
+    body
+        div(class="page_wrapper", style = "background-image:url(" + img_url + ") ;")
+            div(class="description_wrapper")
+                p(class="main-text")="CATZ ARE COOL!!!!"
+            div(class="image_wrapper")
+                each post in posts
+                    block content
     script="let aud = document.querySelector('audio'); aud.play()"
