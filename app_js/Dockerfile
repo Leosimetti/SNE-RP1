@@ -11,3 +11,4 @@ WORKDIR /usr/src/app
 COPY --chown=node:node --from=build /usr/src/app/node_modules /usr/src/app/node_modules
 COPY --chown=node:node . /usr/src/app
 CMD ["npm", "start"]
+EXPOSE 3000
