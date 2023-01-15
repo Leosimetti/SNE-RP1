@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "RPchart.fullname" . }}
+  name: {{ include "rp_chart.fullname" . }}
   labels:
-    {{- include "RPchart.labels" . | nindent 4 }}
+    {{- include "rp_chart.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "RPchart.selectorLabels" . | nindent 6 }}
+      {{- include "rp_chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "RPchart.selectorLabels" . | nindent 8 }}
+        {{- include "rp_chart.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "RPchart.serviceAccountName" . }}
+      serviceAccountName: {{ include "rp_chart.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
