@@ -1,23 +1,21 @@
 const express = require("express");
 const api = require("../api");
+const {URLS} = require("../api");
 const router = express.Router();
 
 /* GET home page. */
 router.get("/", async function (req, res, next) {
-  const AMOUNT = 4;
-  const randomBackground = true;
+    const AMOUNT = 4;
+    const randomBackground = true;
 
-  console.log({
-    posts: api.getPosts(AMOUNT),
-    img_url: api.getBackImage(randomBackground),
-    audio_src: api.RADIO_URL,
-  });
+    const response = {
+        posts: await api.getPosts(AMOUNT),
+        img_url: await api.getBackImage(randomBackground),
+        audio_src: URLS.RADIO,
+    }
 
-  res.render("index", {
-    posts: await api.getPosts(AMOUNT),
-    img_url: await api.getBackImage(randomBackground),
-    audio_src: api.RADIO_URL,
-  });
+    console.log(response);
+    res.render("index", response);
 });
 
 module.exports = router;
