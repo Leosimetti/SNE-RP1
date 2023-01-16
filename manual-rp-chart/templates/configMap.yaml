@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: manual-rp-configmap
+data:
+  DYNAMIC_IMAGE: https://api.waifu.pics/sfw/shinobu
+#  RADIO: ???
+#  STATIC_IMAGE: ???
+#  CATS_IMAGE: ???
+#  DESCRIPTION: ???

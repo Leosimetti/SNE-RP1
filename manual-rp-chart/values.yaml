@@ -1,0 +1,16 @@
+replicaCount: 1
+
+image:
+  repository: leosimonetti/sne-rp1
+  pullPolicy: Always
+  tag: "latest"
+
+service:
+  type: LoadBalancer
+  port: 3000
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
