@@ -28,7 +28,7 @@ async function getDescriptions(amount) {
 async function getPosts(amount) {
     const cat_images = await getCatImages(amount);
     const cat_descriptions = await getDescriptions(amount);
-    return cat_descriptions.map((_, ind) => ({
+    return cat_images.map((_, ind) => ({
         pic: cat_images[ind],
         content: cat_descriptions[ind],
     }));
