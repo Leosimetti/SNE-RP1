@@ -34,12 +34,17 @@ async function getPosts(amount) {
     }));
 }
 
+function getEnvOrDefault(envName, defaultVal) {
+    const envContent = process.env[envName]
+    return envContent ? envContent : defaultVal
+}
+
 const URLS = {
-    RADIO: "http://91.219.74.220:8000/Vanya.ogg",
-    DYNAMIC_IMAGE: "https://api.waifu.pics/sfw/bully",
-    STATIC_IMAGE: "https://i.waifu.pics/PGj1tg7.gif",
-    CATS_IMAGE: "https://api.thecatapi.com/v1/images/search",
-    DESCRIPTION: "https://binaryjazz.us/wp-json/genrenator/v1/story",
+    RADIO: getEnvOrDefault("RADIO", "http://91.219.74.220:8000/Vanya.ogg"),
+    DYNAMIC_IMAGE: getEnvOrDefault("DYNAMIC_IMAGE", "https://api.waifu.pics/sfw/bully"),
+    STATIC_IMAGE: getEnvOrDefault("STATIC_IMAGE", "https://i.waifu.pics/PGj1tg7.gif"),
+    CATS_IMAGE: getEnvOrDefault("CATS_IMAGE", "https://api.thecatapi.com/v1/images/search"),
+    DESCRIPTION: getEnvOrDefault("DESCRIPTION", "https://binaryjazz.us/wp-json/genrenator/v1/story"),
 };
 
 module.exports = {
