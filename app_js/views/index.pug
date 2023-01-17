@@ -9,7 +9,6 @@ block comment
     div(class="comment")
         // - var url = "https://thispersondoesnotexist.com/image"
         // img(src=url style="width:42px")
-        - var sas = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000
-        - var url = "https://thisanimedoesnotexist.ai/results/psi-1.0/seed"+sas+".png"
+        - var url = "https://thisanimedoesnotexist.ai/results/psi-1.0/seed"+comment.pic+".png"
         img(src=url style="width:42px; border: 2px solid black;")
         p=comment.text
