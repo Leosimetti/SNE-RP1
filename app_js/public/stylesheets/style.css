@@ -6,8 +6,29 @@ body {
 }
 
 .page_wrapper {
+    display: flex;
     background-size:cover;
     min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+}
+
+.comment_block{
+    display: flex;
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    min-width: 400px;
+    min-height: 700px;
+}
+
+.comment{
+    background-color: white;
+    border: 2px solid red;
+}
+
+.comment p{
+    margin-left: 42px;
+    margin-top: 0;
 }
 
 h1 {
@@ -22,11 +43,20 @@ h1 {
     flex-wrap: wrap;
 }
 
-.description_wrapper {
+@media only screen and (max-width: 1200px){
+.content_wrapper {
     display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+    flex-direction: column-reverse;
 }
+}
+
+@media only screen and (min-width: 1201px){
+    .content_wrapper {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
 .main-text {
     font-size: 80px;
     margin-top: 0;
