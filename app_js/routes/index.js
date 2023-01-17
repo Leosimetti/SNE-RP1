@@ -5,7 +5,7 @@ const {response} = require("express");
 const mongoose = require('mongoose');
 const router = express.Router();
 mongoose.connect('mongodb://admin:admin@localhost:27017', {useNewUrlParser: true})
-const Comment = mongoose.model('Comment', new mongoose.Schema({ text: String }));
+const Comment = mongoose.model('Comment', new mongoose.Schema({ text: String, pic: Number }));
 
 
 const AMOUNT = 4;
@@ -28,7 +28,7 @@ router.get("/", async function (req, res, next) {
 router.post("/", async function (req, res, next) {
     const comment = req.body.comm_input
 
-    await Comment.create({ text: comment });
+    await Comment.create({ text: comment, pic: Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000 });
     await load_page(res)
     console.log(res);
 })
