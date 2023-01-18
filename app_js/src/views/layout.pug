@@ -10,13 +10,13 @@ html
         div(class="page_wrapper", style = "background-image:url(" + img_url + ") ;")
             p(class="main-text")="CATZ ARE COOL!!!!"
             div(class="content_wrapper")
-                //- div(class="comment_block")
-                //-     div(class="comment_input")
-                //-         form(method="post")
-                //-             input(name="comm_input")
-                //-             button="post"
-                //-     each comment in comments
-                //-         block comment
+                div(class="comment_block")
+                    div(class="comment_input")
+                        form(method="post")
+                            input(name="comm_input")
+                            button="post"
+                    each comment in comments
+                        block comment
                 div(class="image_block")
                     div(class="image_wrapper")
                         each post in posts
