@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+spec:
+  selector:
+    matchLabels:
+      app: mongodb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - image: mongo:4.0.9-xenial
+          name: mongodb
+          ports:
+            - containerPort: 27017
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /data/db
+              name: general-disk
+              subPath: mongodb/data
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: "admin"
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: "admin"
+          resources:
+            limits:
+              memory: "520Mi"
+              cpu: "0.3"
+            requests:
+              cpu: "0"
+              memory: "0"
+      volumes:
+        - name: general-disk
+          persistentVolumeClaim:
+            claimName: general-disk
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-srv
+  labels:
+    app: mongodb
+spec:
+  ports:
+    - port: 27017
+  type: LoadBalancer
+  selector:
+    app: mongodb
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: general-disk
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
