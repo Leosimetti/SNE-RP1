@@ -6,6 +6,7 @@
     "start": "node --watch ./dist/bin/www",
     "start:old": "node --watch ./old/bin/www",
     "start:fw": "run-p -l start watch",
+    "start:fnw": "run-s build start",
     "watch": "run-p -rl watch:ts watch:nonts",
     "watch:ts": "tsc -w",
     "watch:nonts": "tscp -w",
