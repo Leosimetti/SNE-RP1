@@ -39,7 +39,7 @@ export async function getPosts(amount: number) {
   }))
 }
 
-function getEnvOrDefault(envName: string, defaultVal: string) {
+export function getEnvOrDefault(envName: string, defaultVal: string) {
   const envContent = process.env[envName]
   return envContent ? envContent : defaultVal
 }

@@ -1,11 +1,11 @@
 import express from "express";
-import { URLS, getBackImage, getPosts } from "../api";
+import { URLS, getBackImage, getPosts, getEnvOrDefault } from "../api";
 import * as mongoose from "mongoose";
 
 export const router = express.Router();
 mongoose.connect("mongodb://admin:admin@localhost:27017").then(r => console.log("Connected"));
 const Comment = mongoose.model("Comment", new mongoose.Schema({ text: String, pic: Number }));
-const AMOUNT = 4;
+const AMOUNT = Number(getEnvOrDefault("AMOUNT", "5"));
 const randomBackground = true;
 
 
