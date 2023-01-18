@@ -3,7 +3,7 @@ import { URLS, getBackImage, getPosts, getEnvOrDefault } from "../api";
 import * as mongoose from "mongoose";
 
 export const router = express.Router();
-mongoose.connect("mongodb://admin:admin@localhost:27017").then(r => console.log("Connected"));
+mongoose.connect("mongodb://admin:admin@mongo-nodeport-svc:27017").then(r => console.log("Connected"));
 const Comment = mongoose.model("Comment", new mongoose.Schema({ text: String, pic: Number }));
 const AMOUNT = Number(getEnvOrDefault("AMOUNT", "5"));
 const randomBackground = JSON.parse(getEnvOrDefault("RANDOM_BACKGROUND", "true"));
