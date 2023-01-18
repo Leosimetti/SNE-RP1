@@ -6,7 +6,7 @@ export const router = express.Router();
 mongoose.connect("mongodb://admin:admin@localhost:27017").then(r => console.log("Connected"));
 const Comment = mongoose.model("Comment", new mongoose.Schema({ text: String, pic: Number }));
 const AMOUNT = Number(getEnvOrDefault("AMOUNT", "5"));
-const randomBackground = true;
+const randomBackground = JSON.parse(getEnvOrDefault("RANDOM_BACKGROUND", "true"));
 
 
 async function load_page(res) {
