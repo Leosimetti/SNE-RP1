@@ -1,8 +1,7 @@
 FROM node:latest AS build
 WORKDIR /usr/src/app
 COPY package*.json /usr/src/app/
-RUN npm ci --only=production && \
-   rm -f .npmrc
+RUN npm i  && rm -f .npmrc
 
 FROM node:lts-alpine
 ENV NODE_ENV production
