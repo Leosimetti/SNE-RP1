@@ -10,7 +10,9 @@
     "watch": "run-p -rl watch:ts watch:nonts",
     "watch:ts": "tsc -w",
     "watch:nonts": "tscp -w",
-    "build": "run-s tsc tscp",
+    "build": "run-s build:ts build:nonts",
+    "build:ts": "tsc",
+    "build:nonts": "tscp",
     "clear": "rimraf dist",
     "lint": "prettier --write ./src"
   },
