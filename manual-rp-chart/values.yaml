@@ -7,14 +7,14 @@ app:
     tag: "latest"
 
   secret:
-    name: "app-secrets"
-    path: "secret/app-secrets"
-    role: "secret-role"
+    name: "helloworld"
+    path: "secret/basic-secret/helloworld"
+    role: "basic-secret-role"
 
   label: "node"
 
   serviceaccount:
-    name: "application"
+    name: "basic-secret"
 
   service:
     type: NodePort
