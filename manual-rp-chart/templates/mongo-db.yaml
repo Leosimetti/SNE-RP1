@@ -48,7 +48,7 @@ metadata:
 spec:
   ports:
     - port: 27017
-  type: LoadBalancer
+  type: {{ .Values.mongo.service.type }}
   selector:
     app: mongodb
 ---

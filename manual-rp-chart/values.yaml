@@ -6,10 +6,18 @@ app:
     pullPolicy: Always
     tag: "latest"
 
+  secret:
+    name: "app-secrets"
+    path: "secret/app-secrets"
+    role: "secret-role"
+
   label: "node"
 
+  serviceaccount:
+    name: "application"
+
   service:
-    type: LoadBalancer
+    type: NodePort
     port: 3000
 
   autoscaling:
@@ -21,3 +29,4 @@ app:
 mongo:
   service:
     name: mongo-srv
+    type: NodePort
