@@ -496,11 +496,14 @@ spec:
         runAsUser: 100
         fsGroup: 1000
       volumes:
-        
+        - name: rp-vault-configmap-volume
+          configMap:
+            name: rp-vault-configmap
+
         - name: config
           configMap:
             name: vault-config
-  
+      
         - name: userconfig-tls-server
           secret:
             secretName: tls-server
@@ -578,12 +581,10 @@ spec:
               value: "/vault/userconfig/tls-ca/tls.crt"
             
           volumeMounts:
-          
-  
-  
+            - name: rp-vault-configmap-volume
+              mountPath: /home
             - name: config
               mountPath: /vault/config
-  
             - name: userconfig-tls-server
               readOnly: true
               mountPath: /vault/userconfig/tls-server

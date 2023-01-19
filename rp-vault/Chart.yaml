@@ -1,0 +1,7 @@
+apiVersion: v2
+name: rp-vault
+description: SNE research project Vault Helm Chart
+
+type: application
+version: 0.1.0
+appVersion: "0.0.1"

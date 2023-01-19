@@ -117,3 +117,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+aboba.*
+keys
+rp-vault/tls/
+.DS_Store

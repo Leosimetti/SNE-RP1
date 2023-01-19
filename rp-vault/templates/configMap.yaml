@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rp-vault-configmap
+  namespace: vault
+data:
+  create-policies.sh: |
+    vault auth enable kubernetes
+
+    sleep 1
+    
+    vault write auth/kubernetes/config \
+      token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+      kubernetes_host=https://${KUBERNETES_PORT_443_TCP_ADDR}:443 \
+      kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt \
+      issuer="https://kubernetes.default.svc.cluster.local"
+
+    sleep 1
+
+    vault write auth/kubernetes/role/{{ .Values.k8sAuth.role.name }} \
+      bound_service_account_names={{ .Values.k8sAuth.role.serviceAccountNames }} \
+      bound_service_account_namespaces={{ .Values.k8sAuth.role.serviceAccountNamespaces }} \
+      policies={{ .Values.k8sAuth.role.policyName }} \
+      ttl=1h
+    
+    sleep 1
+
+    cat <<EOF > /home/vault/app-policy.hcl
+    path "{{ .Values.appPolicy.secretPath }}" {
+      capabilities = ["read"]
+    }
+    EOF
+
+    sleep 1
+
+    vault policy write {{ .Values.k8sAuth.role.policyName }} /home/vault/app-policy.hcl
+
+    sleep 1
+
+    vault secrets enable -path={{ .Values.baseSecretPath }} kv
+
+    sleep 1
+
+    vault secrets enable database
+
+    sleep 1
+
+    vault write database/config/{{ .Values.mongo.dbName }} \
+      plugin_name=mongodb-database-plugin \
+      allowed_roles="{{ .Values.k8sAuth.role.name }}" \
+      connection_url="mongodb://{{username}}:{{password}}@{{ .Values.mongo.service.name }}:27017/admin" \
+      username="{{ .Values.mongo.username }}" \
+      password="{{ .Values.mongo.password }}"
+
+    sleep 1
+
+    vault write {{ .Values.mongo.secret.path }} \
+      db_name={{ .Values.mongo.dbName }} \
+      creation_statements='{\
+        "db": "admin", \
+        "roles": [\
+          { "role": "readWrite" }, \
+          {"role": "readWrite", "db": "test"}\
+        ]\
+      }' \
+      default_ttl="1h" \
+      max_ttl="24h"
