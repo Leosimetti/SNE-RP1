@@ -39,16 +39,15 @@ data:
 
     vault secrets enable -path={{ .Values.baseSecretPath }} kv
 
-    sleep 1
-
+  create-mongo-policies.sh: |
     vault secrets enable database
 
     sleep 1
 
     vault write database/config/{{ .Values.mongo.dbName }} \
       plugin_name=mongodb-database-plugin \
-      allowed_roles="{{ .Values.k8sAuth.role.name }}" \
-      connection_url="mongodb://{{username}}:{{password}}@{{ .Values.mongo.service.name }}:27017/admin" \
+      allowed_roles="*" \
+      connection_url="mongodb://{{ "{{" }}username{{ "}}" }}:{{ "{{" }}password{{ "}}" }}@{{ .Values.mongo.service.name }}:27017/admin" \
       username="{{ .Values.mongo.username }}" \
       password="{{ .Values.mongo.password }}"
 
@@ -56,12 +55,6 @@ data:
 
     vault write {{ .Values.mongo.secret.path }} \
       db_name={{ .Values.mongo.dbName }} \
-      creation_statements='{\
-        "db": "admin", \
-        "roles": [\
-          { "role": "readWrite" }, \
-          {"role": "readWrite", "db": "test"}\
-        ]\
-      }' \
+      creation_statements='{"db": "admin", "roles": [{ "role": "readWrite" }, {"role": "readWrite", "db": "test"}]}' \
       default_ttl="1h" \
       max_ttl="24h"
