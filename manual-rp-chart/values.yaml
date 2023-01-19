@@ -7,7 +7,7 @@ app:
     tag: "latest"
 
   secret:
-    name: "helloworld"
+    name: "app-secret"
     path: "secret/basic-secret/helloworld"
     role: "basic-secret-role"
 
@@ -26,7 +26,13 @@ app:
     maxReplicas: 100
     targetCPUUtilizationPercentage: 80
 
+secret:
+  role: "basic-secret-role"
+
 mongo:
   service:
     name: mongo-srv
     type: NodePort
+  secret:
+    name: "db-creds"
+    path: "database/creds/my-role"

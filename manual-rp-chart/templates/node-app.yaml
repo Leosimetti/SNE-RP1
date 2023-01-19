@@ -30,15 +30,21 @@ spec:
   template:
     metadata:
       annotations:
+        vault.hashicorp.com/role: {{ .Values.secret.role }}
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/tls-skip-verify: "true"
         vault.hashicorp.com/agent-pre-populate-only: 'true'
+
+        vault.hashicorp.com/agent-inject-secret-{{ .Values.mongo.secret.name }}: {{ .Values.mongo.secret.path }}
+        vault.hashicorp.com/agent-inject-template-{{ .Values.mongo.secret.name }}: |
+          {{ "{{" }} with secret "{{ .Values.mongo.secret.path }}" -{{ "}}" }}
+            export dbUrl="mongodb://{{ "{{" }} .Data.username {{ "}}" }}:{{ "{{" }} .Data.password {{ "}}" }}@{{ .Values.mongo.service.name }}:27017"
+          {{ "{{" }}- end {{ "}}" }}
+
         vault.hashicorp.com/agent-inject-secret-{{ .Values.app.secret.name }}: {{ .Values.app.secret.path }}
-        vault.hashicorp.com/role: {{ .Values.app.secret.role }}
         vault.hashicorp.com/agent-inject-template-{{ .Values.app.secret.name }}: |
           {{ "{{" }} with secret "{{ .Values.app.secret.path }}" -{{ "}}" }}
             export apiKey="{{ "{{" }} .Data.apiKey {{ "}}" }}"
-            export dbUrl="mongodb://{{ "{{" }} .Data.dbUser {{ "}}" }}:{{ "{{" }} .Data.dbPassword {{ "}}" }}@mongo-srv:27017"
           {{ "{{" }}- end {{ "}}" }}
       labels:
         app: node
@@ -49,7 +55,7 @@ spec:
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"
           command: ["/bin/sh"]
           args:
-            ['-c', 'source /vault/secrets/{{ .Values.app.secret.name }} && npm run start:fnw']
+            ['-c', 'source /vault/secrets/{{ .Values.app.secret.name }} && source /vault/secrets/{{ .Values.mongo.secret.name }} && npm run start:fnw']
           imagePullPolicy: {{ .Values.app.image.pullPolicy }}
           ports:
             - name: http
