@@ -42,7 +42,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo-srv
+  name: {{ .Values.mongo.service.name }}
   labels:
     app: mongodb
 spec:

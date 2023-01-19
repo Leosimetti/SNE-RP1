@@ -1,0 +1,7 @@
+apiVersion: v2
+name: mongo-rp-chart
+description: SNE research project MongoDB helm chart
+
+type: application
+version: 0.1.0
+appVersion: "0.0.1"

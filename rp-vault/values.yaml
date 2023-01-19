@@ -2,11 +2,11 @@ k8sAuth:
   role:
     name: "basic-secret-role"
     serviceAccountNames: "basic-secret"
-    serviceAccountNamespaces: "example-app"
+    serviceAccountNamespaces: "*"
     policyName: "basic-secret-policy"
 
 appPolicy:
-  secretPath: "secret/basic-secret/*"
+  secretPath: "*"
 
 baseSecretPath: "secret/"
 
@@ -17,4 +17,5 @@ mongo:
   password: "admin"
   username: "admin"
   secret:
+    role: my-role
     path: "database/roles/my-role"

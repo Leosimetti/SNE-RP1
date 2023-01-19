@@ -46,7 +46,7 @@ data:
 
     vault write database/config/{{ .Values.mongo.dbName }} \
       plugin_name=mongodb-database-plugin \
-      allowed_roles="*" \
+      allowed_roles="{{ .Values.mongo.secret.role }}" \
       connection_url="mongodb://{{ "{{" }}username{{ "}}" }}:{{ "{{" }}password{{ "}}" }}@{{ .Values.mongo.service.name }}:27017/admin" \
       username="{{ .Values.mongo.username }}" \
       password="{{ .Values.mongo.password }}"
