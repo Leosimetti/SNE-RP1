@@ -10,7 +10,7 @@
 
 1. Deploy Vault
 ```shell
-helm install vault rp-vault
+helm install vault rp-vault --values prod-values.yaml
 ```
 
 2. Initialize and unseal Vault, run a script to create basic policies
@@ -24,7 +24,7 @@ sh /home/create-policies.sh
 
 3. Deploy MongoDB
 ```shell
-helm install mongo rp-mongo --namespace=vault
+helm install mongo rp-mongo --namespace=vault --values prod-values.yaml
 ```
 
 4. Create policies for MondoDB credentials rotation
@@ -41,7 +41,7 @@ vault kv put secret/path/is/in/vault/values apiKey=***
 
 6. Deploy the application
 ```shell
-helm install app manual-rp-chart --namespace=vault
+helm install app manual-rp-chart --namespace=vault --values prod-values.yaml
 ```
 
 Wait 10-15 seconds after this step.
