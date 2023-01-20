@@ -15,7 +15,7 @@ async function load_page(res) {
     posts: posts,
     comments: await Comment.find(),
     img_url: await getBackImage(randomBackground),
-    audio_src: URLS.RADIO,
+    audio_src: URLS().RADIO,
   })
 }
 
