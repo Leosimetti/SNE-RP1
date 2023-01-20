@@ -19,4 +19,3 @@ jobs:
           hide-progress: false
           exit-code: '1'
           ignore-unfixed: true
-          severity: 'CRITICAL,HIGH'
