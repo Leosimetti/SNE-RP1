@@ -2,7 +2,7 @@ name: Trivy configuration scan
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   scan:
     name: Configuration scan
