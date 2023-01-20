@@ -1,14 +1,28 @@
-name: RP1-SNE app image publish
+name: Docker image publish
 
 on:
   push:
     branches:
       - main
-
-
 jobs:
+  grype-scan:
+    name: Scan container image with Grype
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app_js
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the container image
+        run: docker build . --file Dockerfile --tag localbuild/testimage:latest
+      - uses: anchore/scan-action@v3
+        with:
+          image: "localbuild/testimage:latest"
+          fail-build: true
   publish-to-docker:
     runs-on: ubuntu-latest
+    needs:
+      - grype-scan
     defaults:
       run:
         working-directory: ./app_js
