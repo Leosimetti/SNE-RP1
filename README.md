@@ -2,6 +2,12 @@
 
 ## Deployment Steps
 
+0. Generate TLS certificates and keys. The following files should be in `rp-vault/tls`:
+    * `ca-key.pem` (with private key)
+    * `ca.pem` (with cert)
+    * `vault-key.pem` (with private key)
+    * `vault.pem` (with cert)
+
 1. Deploy Vault
 ```shell
 helm install vault rp-vault
@@ -44,3 +50,13 @@ Wait 10-15 seconds after this step.
 ```
 kubectl -n vault port-forward svc/manual-rp-service 32343:3000
 ```
+
+8. ...
+
+9.  
+<details>
+<summary>I don't like kubernetes</summary>
+
+![kid named k8s](https://i.imgur.com/9GatZSS.png)
+
+</details>
