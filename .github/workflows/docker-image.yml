@@ -18,6 +18,7 @@ jobs:
       - uses: anchore/scan-action@v3
         with:
           image: "localbuild/testimage:latest"
+          output-format: table
           fail-build: true
   publish-to-docker:
     runs-on: ubuntu-latest
