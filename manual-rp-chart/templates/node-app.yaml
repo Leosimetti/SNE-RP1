@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: manual-rp-service
   labels:
-    app: node
+    app: {{ .Values.app.label }}
 spec:
   type: {{ .Values.app.service.type }}
   ports:
@@ -12,25 +12,25 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: node
+    app: {{ .Values.app.label }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: manual-rp-deployment
   labels:
-    app: node
+    app: {{ .Values.app.label }}
 spec:
   {{- if not .Values.app.autoscaling.enabled }}
-  replicas: {{ .Values.app.replicaCount }}
+  replicas: {{ .Values.app.autoscaling.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: node
+      app: {{ .Values.app.label }}
   template:
     metadata:
       annotations:
-        vault.hashicorp.com/role: {{ .Values.secret.role }}
+        vault.hashicorp.com/role: {{ .Values.k8sAuth.role.name }}
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/tls-skip-verify: "true"
 
@@ -46,9 +46,9 @@ spec:
             export apiKey="{{ "{{" }} .Data.apiKey {{ "}}" }}"
           {{ "{{" }}- end {{ "}}" }}
       labels:
-        app: node
+        app: {{ .Values.app.label }}
     spec:
-      serviceAccountName: {{ .Values.app.serviceaccount.name }}
+      serviceAccountName: {{ .Values.k8sAuth.role.serviceAccountNames }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"

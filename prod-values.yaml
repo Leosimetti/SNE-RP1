@@ -3,48 +3,31 @@ k8sAuth:
     name: "basic-secret-role"
     serviceAccountNames: "basic-secret"
     serviceAccountNamespaces: "*"
-    policyName: "basic-secret-policy"
-
-appPolicy:
-  secretPath: "*"
-
-baseSecretPath: "secret/"
+  policy:
+    name: "basic-secret-policy"
+    secretPath: "*"
+  baseSecretPath: "secret/"
 
 mongo:
-  dbName: "my-mongodb-database"
+  replicaCount: 1
   service:
     name: "mongo-srv"
+    type: NodePort
   password: "admin"
   username: "admin"
-  secret:
-    role: my-role
+  secretRole:
+    name: my-role
     path: "database/roles/my-role"
----
-mongo:
-  service:
-    name: mongo-srv
-    type: NodePort
   secret:
     name: "db-creds"
     path: "database/creds/my-role"
----
-replicaCount: 1
 
 app:
+  label: "node"
   image:
     repository: leosimonetti/sne-rp1
     pullPolicy: Always
     tag: "latest"
-
-  secret:
-    name: "app-secret"
-    path: "secret/basic-secret/helloworld"
-    role: "basic-secret-role"
-
-  label: "node"
-
-  serviceaccount:
-    name: "basic-secret"
 
   service:
     type: NodePort
@@ -52,18 +35,11 @@ app:
 
   autoscaling:
     enabled: false
+    replicaCount: 1
     minReplicas: 1
     maxReplicas: 100
     targetCPUUtilizationPercentage: 80
 
-secret:
-  role: "basic-secret-role"
-
-mongo:
-  service:
-    name: mongo-srv
-    type: NodePort
   secret:
-    name: "db-creds"
-    path: "database/creds/my-role"
----
+    name: "app-secret"
+    path: "secret/basic-secret/helloworld"

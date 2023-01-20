@@ -20,41 +20,41 @@ data:
     vault write auth/kubernetes/role/{{ .Values.k8sAuth.role.name }} \
       bound_service_account_names={{ .Values.k8sAuth.role.serviceAccountNames }} \
       bound_service_account_namespaces={{ .Values.k8sAuth.role.serviceAccountNamespaces }} \
-      policies={{ .Values.k8sAuth.role.policyName }} \
+      policies={{ .Values.k8sAuth.policy.name }} \
       ttl=1h
     
     sleep 1
 
     cat <<EOF > /home/vault/app-policy.hcl
-    path "{{ .Values.appPolicy.secretPath }}" {
+    path "{{ .Values.k8sAuth.policy.secretPath }}" {
       capabilities = ["read"]
     }
     EOF
 
     sleep 1
 
-    vault policy write {{ .Values.k8sAuth.role.policyName }} /home/vault/app-policy.hcl
+    vault policy write {{ .Values.k8sAuth.policy.name }} /home/vault/app-policy.hcl
 
     sleep 1
 
-    vault secrets enable -path={{ .Values.baseSecretPath }} kv
+    vault secrets enable -path={{ .Values.k8sAuth.baseSecretPath }} kv
 
   create-mongo-policies.sh: |
     vault secrets enable database
 
     sleep 1
 
-    vault write database/config/{{ .Values.mongo.dbName }} \
+    vault write database/config/{{ .Values.mongo.service.name }} \
       plugin_name=mongodb-database-plugin \
-      allowed_roles="{{ .Values.mongo.secret.role }}" \
+      allowed_roles="{{ .Values.mongo.secretRole.name }}" \
       connection_url="mongodb://{{ "{{" }}username{{ "}}" }}:{{ "{{" }}password{{ "}}" }}@{{ .Values.mongo.service.name }}:27017/admin" \
       username="{{ .Values.mongo.username }}" \
       password="{{ .Values.mongo.password }}"
 
     sleep 1
 
-    vault write {{ .Values.mongo.secret.path }} \
-      db_name={{ .Values.mongo.dbName }} \
+    vault write {{ .Values.mongo.secretRole.path }} \
+      db_name={{ .Values.mongo.service.name }} \
       creation_statements='{"db": "admin", "roles": [{ "role": "readWrite" }, {"role": "readWrite", "db": "test"}]}' \
       default_ttl="1h" \
       max_ttl="24h"
