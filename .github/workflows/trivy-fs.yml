@@ -2,7 +2,7 @@ name: Trivy filesystem scan
 on:
   push:
     branches:
-    - master
+    - main
 
 jobs:
   scan:
