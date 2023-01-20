@@ -1,32 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb
+  name: {{ .Values.mongo.baseName }}
 spec:
   selector:
     matchLabels:
-      app: mongodb
+      app: {{ .Values.mongo.label }}
   replicas: 1
   template:
     metadata:
       labels:
-        app: mongodb
+        app: {{ .Values.mongo.label }}
     spec:
       containers:
-        - image: mongo:4.0.9-xenial
-          name: mongodb
+        - image: "{{ .Values.mongo.image.repository }}:{{ .Values.mongo.image.tag | default .Chart.AppVersion }}"
+          name: {{ .Chart.Name }}-{{ .Values.mongo.baseName }}
           ports:
-            - containerPort: 27017
-          imagePullPolicy: Always
+            - containerPort: {{ .Values.mongo.service.port }}
+          imagePullPolicy: {{ .Values.mongo.pullPolicy }}
           volumeMounts:
             - mountPath: /data/db
               name: general-disk
               subPath: mongodb/data
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
-              value: "admin"
+              value: {{ .Values.mongo.username }}
             - name: MONGO_INITDB_ROOT_PASSWORD
-              value: "admin"
+              value: {{ .Values.mongo.password }}
           resources:
             limits:
               memory: "520Mi"
@@ -44,13 +44,13 @@ kind: Service
 metadata:
   name: {{ .Values.mongo.service.name }}
   labels:
-    app: mongodb
+    app: {{ .Values.mongo.label }}
 spec:
   ports:
     - port: 27017
   type: {{ .Values.mongo.service.type }}
   selector:
-    app: mongodb
+    app: {{ .Values.mongo.label }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

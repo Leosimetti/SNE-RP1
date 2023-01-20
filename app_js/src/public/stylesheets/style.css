@@ -17,7 +17,7 @@ body {
   display: flex;
   backdrop-filter: blur(20px);
   flex-direction: column;
-  width: 100%;
+  width: 20%;
   /* min-height: 700px; */
   margin-left: 10px;
   gap: 10px;

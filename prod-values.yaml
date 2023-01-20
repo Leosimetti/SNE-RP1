@@ -9,10 +9,18 @@ k8sAuth:
   baseSecretPath: "secret/"
 
 mongo:
-  replicaCount: 1
+  baseName: mongodb
+  label: "mongo"
+
+  image:
+    repository: mongo
+    pullPolicy: Always
+    tag: "4.0.9-xenial"
   service:
     name: "mongo-srv"
     type: NodePort
+    port: 27017
+
   password: "admin"
   username: "admin"
   secretRole:
@@ -23,6 +31,7 @@ mongo:
     path: "database/creds/my-role"
 
 app:
+  baseName: web-app
   label: "node"
   image:
     repository: leosimonetti/sne-rp1
@@ -30,8 +39,11 @@ app:
     tag: "latest"
 
   service:
+    name: "web-app-service"
     type: NodePort
     port: 3000
+  configMap:
+    name: "web-app-configmap"
 
   autoscaling:
     enabled: false

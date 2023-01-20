@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: manual-rp-service
+  name: {{ .Values.app.service.name }}
   labels:
     app: {{ .Values.app.label }}
 spec:
@@ -17,7 +17,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: manual-rp-deployment
+  name: {{ .Values.app.baseName }}
   labels:
     app: {{ .Values.app.label }}
 spec:
@@ -50,7 +50,7 @@ spec:
     spec:
       serviceAccountName: {{ .Values.k8sAuth.role.serviceAccountNames }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-{{ .Values.app.baseName }}
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"
           command: ["/bin/sh"]
           args:
@@ -64,5 +64,5 @@ spec:
             - name: DYNAMIC_IMAGE
               valueFrom:
                 configMapKeyRef:
-                  name: manual-rp-configmap
+                  name: {{ .Values.app.configMap.name }}
                   key: DYNAMIC_IMAGE

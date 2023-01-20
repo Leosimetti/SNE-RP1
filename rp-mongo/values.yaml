@@ -1,7 +1,0 @@
-mongo:
-  service:
-    name: mongo-srv
-    type: NodePort
-  secret:
-    name: "db-creds"
-    path: "database/creds/my-role"

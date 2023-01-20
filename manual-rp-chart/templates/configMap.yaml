@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: manual-rp-configmap
+  name: {{ .Values.app.configMap.name }}
 data:
   DYNAMIC_IMAGE: https://api.waifu.pics/sfw/shinobu
 #  RADIO: ???
