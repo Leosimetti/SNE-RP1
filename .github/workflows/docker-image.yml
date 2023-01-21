@@ -50,7 +50,6 @@ jobs:
           context: ./app_js/
           file: ./app_js/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
-          platforms: linux/arm64/v8,amd64
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/sne-rp1:latest
           cache-from: type=local,src=/tmp/.buildx-cache
