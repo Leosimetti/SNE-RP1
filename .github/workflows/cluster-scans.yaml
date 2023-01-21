@@ -30,7 +30,7 @@ jobs:
         run: wget https://github.com/Shopify/kubeaudit/releases/download/v0.21.0/kubeaudit_0.21.0_linux_amd64.tar.gz
       
       - name: Extract archive
-        run: tar -xz kubeaudit_0.21.0_linux_amd64.tar.gz
+        run: tar -xf kubeaudit_0.21.0_linux_amd64.tar.gz
       
       - name: Run Kubeaudit
         run: ./kubeaudit_0.21.0_linux_amd64/kubeaudit all
