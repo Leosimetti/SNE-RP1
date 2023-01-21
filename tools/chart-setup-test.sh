@@ -3,11 +3,13 @@
 # Not a complete failsafe, but better than nothing
 set -e
 
+cd charts
+
 echo installing the Vault Helm chart
-helm install vault rp-vault --values prod-values.yaml --wait
+helm install vault rp-vault --values values.yaml --wait
 
 echo waiting for pods
-kubectl wait --for=condition=Ready pod/vault-0
+kubectl -n vault wait --for=condition=Ready pods/vault-0
 
 echo initializing Vault
 OUT=$(kubectl -n vault exec -it statefulsets/vault -- vault operator init -n 1 -t 1 -format json)
@@ -29,7 +31,7 @@ echo running policy creation script
 kubectl -n vault exec -it statefulsets/vault -- sh /home/create-policies.sh
 
 echo installing MongoDB Helm chart
-helm install mongo rp-mongo --namespace=vault --values prod-values.yaml --wait
+helm install mongo rp-mongo --namespace=vault --values values.yaml --wait
 
 echo running mongo policy creation script
 kubectl -n vault exec -it statefulsets/vault -- sh /home/create-mongo-policies.sh
