@@ -4,11 +4,14 @@ import sys
 
 def run_command(cmd: str) -> str:
     out = subprocess.run(cmd.split(), capture_output=True)
+    stdout = out.stdout.decode("utf-8")
     if out.returncode != 0:
+        print(stdout)
+        print()
         print(out.stderr.decode("utf-8"))
         exit(out.returncode)
     else:
-        return out.stdout.decode("utf-8")
+        return stdout
 
 if len(sys.argv[1:]) < 1: 
     print("Please specify the API key in the command line arguments")
