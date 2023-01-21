@@ -7,6 +7,9 @@ def run_command(cmd: str) -> str:
         cmd.split(), capture_output=True
     ).stdout.decode("utf-8")
 
+if len(sys.argv[1:]) < 1: 
+    print("Please specify the API key in the command line arguments")
+    exit(1)
 
 print("Installing the Vault Helm chart")
 run_command(r"helm install vault charts/rp-vault/ --values charts/values.yaml --wait")
