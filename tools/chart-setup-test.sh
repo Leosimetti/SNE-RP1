@@ -31,7 +31,7 @@ echo running policy creation script
 kubectl -n vault exec -it statefulsets/vault -- sh /home/create-policies.sh
 
 echo installing MongoDB Helm chart
-helm install mongo rp-mongo --namespace=vault --values values.yaml--wait
+helm install mongo rp-mongo --namespace=vault --values values.yaml --wait
 
 echo running mongo policy creation script
 kubectl -n vault exec -it statefulsets/vault -- sh /home/create-mongo-policies.sh
