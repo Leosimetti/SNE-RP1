@@ -1,5 +1,5 @@
 apiVersion: v2
-name: mongo-rp-chart
+name: rp-mongo
 description: SNE research project MongoDB helm chart
 
 type: application

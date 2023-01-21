@@ -1,5 +1,5 @@
 apiVersion: v2
-name: application-rp-chart
+name: rp-app
 description: SNE research project application helm chart
 
 type: application
