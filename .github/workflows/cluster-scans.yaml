@@ -30,7 +30,7 @@ jobs:
         uses: actions/setup-go@v3
       
       - name: Install Kubeaudit
-        run: go install github.com/Shopify/kubeaudit
+        run: go install github.com/Shopify/kubeaudit@latest
       
       - name: Run Kubeaudit
         run: kubeaudit all
