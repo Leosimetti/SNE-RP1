@@ -6,7 +6,7 @@ set -e
 cd charts
 
 echo installing the Vault Helm chart
-helm install vault rp-vault --values values.yaml --wait
+helm install vault rp-vault --values charts/values.yaml --wait
 
 echo waiting for pods
 kubectl -n vault wait --for=condition=Ready pods/vault-0
@@ -31,7 +31,7 @@ echo running policy creation script
 kubectl -n vault exec -it statefulsets/vault -- sh /home/create-policies.sh
 
 echo installing MongoDB Helm chart
-helm install mongo rp-mongo --namespace=vault --values values.yaml --wait
+helm install mongo rp-mongo --namespace=vault --values charts/values.yaml--wait
 
 echo running mongo policy creation script
 kubectl -n vault exec -it statefulsets/vault -- sh /home/create-mongo-policies.sh
@@ -40,6 +40,6 @@ echo adding the API key to the vault
 kubectl -n vault exec -it vault-0 -- vault kv put secret/basic-secret/helloworld apiKey=$1
 
 echo starting app
-helm install app manual-rp-chart/ --namespace=vault --values prod-values.yaml --wait
+helm install app charts/rp-app --namespace=vault --values charts/values.yaml --wait
 
 echo done!

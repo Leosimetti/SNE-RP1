@@ -9,8 +9,7 @@ def run_command(cmd: str) -> str:
 
 
 print("Installing the Vault Helm chart")
-run_command(r"helm install vault rp-vault --values prod-values.yaml --wait")
-
+run_command(r"helm install vault charts/rp-vault/ --values charts/values.yaml --wait")
 
 print("waiting for pods")
 run_command(r"kubectl wait --namespace=vault --for=condition=Ready pod/vault-0")
@@ -33,18 +32,18 @@ print("logging in")
 run_command(f"kubectl -n vault exec -it statefulsets/vault -- vault login {root_token}")
 
 print("running policy creation script")
-run_command("kubectl -n vault exec -it statefulsets/vault -- sh /home/create-policies.sh")
+run_command(r"kubectl -n vault exec -it statefulsets/vault -- sh /home/create-policies.sh")
 
 print("installing MongoDB Helm chart")
-run_command("helm install mongo rp-mongo --namespace=vault --values prod-values.yaml --wait")
+run_command(r"helm install mongo charts/rp-mongo/ --namespace=vault --values charts/values.yaml --wait")
 
 print("running mongo policy creation script")
-run_command("kubectl -n vault exec -it statefulsets/vault -- sh /home/create-mongo-policies.sh")
+run_command(r"kubectl -n vault exec -it statefulsets/vault -- sh /home/create-mongo-policies.sh")
 
 print("adding the API key to the vault")
 run_command(f"kubectl -n vault exec -it vault-0 -- vault kv put secret/basic-secret/helloworld apiKey={sys.argv[1]}")
 
 print("starting app")
-run_command("helm install app manual-rp-chart/ --namespace=vault --values prod-values.yaml --wait")
+run_command(r"helm install app charts/rp-app/ --namespace=vault --values charts/values.yaml --wait")
 
 print("done!")
