@@ -1,0 +1,57 @@
+k8sAuth:
+  role:
+    name: "basic-secret-role"
+    serviceAccountNames: "basic-secret"
+    serviceAccountNamespaces: "*"
+  policy:
+    name: "basic-secret-policy"
+    secretPath: "*"
+  baseSecretPath: "secret/"
+
+mongo:
+  baseName: mongodb
+  label: "mongo"
+
+  image:
+    repository: mongo
+    pullPolicy: Always
+    tag: "4.0.9-xenial"
+  service:
+    name: "mongo-srv"
+    type: NodePort
+    port: 27017
+
+  password: "admin"
+  username: "admin"
+  secretRole:
+    name: my-role
+    path: "database/roles/my-role"
+  secret:
+    name: "db-creds"
+    path: "database/creds/my-role"
+
+app:
+  baseName: web-app
+  label: "node"
+  image:
+    repository: leosimonetti/sne-rp1
+    pullPolicy: Always
+    tag: "latest"
+
+  service:
+    name: "web-app-service"
+    type: NodePort
+    port: 3000
+  configMap:
+    name: "web-app-configmap"
+
+  autoscaling:
+    enabled: false
+    replicaCount: 1
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+
+  secret:
+    name: "app-secret"
+    path: "secret/basic-secret/helloworld"
