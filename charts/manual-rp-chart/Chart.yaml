@@ -1,6 +1,6 @@
 apiVersion: v2
-name: manual-rp-chart
-description: SNE research project manual helm chart
+name: application-rp-chart
+description: SNE research project application helm chart
 
 type: application
 version: 0.1.0
