@@ -33,4 +33,4 @@ jobs:
         run: tar -xf kubeaudit_0.21.0_linux_amd64.tar.gz
       
       - name: Run Kubeaudit
-        run: ./kubeaudit_0.21.0_linux_amd64/kubeaudit all
+        run: ./kubeaudit all
