@@ -61,7 +61,7 @@ jobs:
       run: tar -xf kube-bench_0.6.10_linux_amd64.tar.gz
     
     - name: Run Kube-bench
-      run: ./kubebench --config-dir cfg
+      run: ./kube-bench --config-dir cfg
       
       
       
