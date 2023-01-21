@@ -1,10 +1,10 @@
-name: Trivy configuration scan
+name: Trivy scan
 on:
   push:
     branches:
       - main
 jobs:
-  scan:
+  config:
     name: Configuration scan
     runs-on: ubuntu-20.04
     steps:
@@ -19,3 +19,16 @@ jobs:
           hide-progress: false
           exit-code: '1'
           ignore-unfixed: true
+  filesystem:
+    name: Filesystem scan
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Trivy vulnerability scanner in fs mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          trivy-config: trivy.yaml
