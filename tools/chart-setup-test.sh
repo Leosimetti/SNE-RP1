@@ -37,6 +37,9 @@ echo running mongo policy creation script
 kubectl -n vault exec -it statefulsets/vault -- sh /home/create-mongo-policies.sh
 
 echo adding the API key to the vault
-kubectl -n vault exec -it vault-0 -- vault kv put secret/path/is/in/vault/values apiKey=$1
+kubectl -n vault exec -it vault-0 -- vault kv put secret/basic-secret/helloworld apiKey=$1
+
+echo starting app
+helm install app manual-rp-chart/ --namespace=vault --values prod-values.yaml --wait
 
 echo done!
