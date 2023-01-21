@@ -16,15 +16,12 @@ jobs:
       - name: Build the container image
         run: docker build . --file Dockerfile --tag localbuild/testimage:latest
       - uses: anchore/scan-action@v3
-        continue-on-error: true
         with:
           image: "localbuild/testimage:latest"
           output-format: table
           fail-build: true
   publish-to-docker:
     runs-on: ubuntu-latest
-    needs:
-      - grype-scan
     defaults:
       run:
         working-directory: ./app_js
@@ -53,7 +50,7 @@ jobs:
           context: ./app_js/
           file: ./app_js/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
-          platforms: linux/arm64/v8,linux/amd64,amd64
+          platforms: linux/arm64/v8,amd64
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/sne-rp1:latest
           cache-from: type=local,src=/tmp/.buildx-cache
