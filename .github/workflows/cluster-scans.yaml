@@ -24,13 +24,13 @@ jobs:
         uses: helm/kind-action@v1.2.0
 
       - name: Run cluster set up script
-        run: sh tools/chart-setup-test.sh
+        run: sh tools/chart-setup-test.sh ${{ secrets.API_KEY }}
       
       - name: Setup Go
         uses: actions/setup-go@v3
       
       - name: Install Kubeaudit
-        run: go get -v github.com/Shopify/kubeaudit
+        run: go install github.com/Shopify/kubeaudit
       
       - name: Run Kubeaudit
         run: kubeaudit all
