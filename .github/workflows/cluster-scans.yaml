@@ -6,8 +6,8 @@ on:
     - main
 
 jobs:
-  cluster:
-    name: Cluster compliance tests
+  kubeaudit:
+    name: Kubeaudit scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,7 +26,7 @@ jobs:
       - name: Run cluster set up script
         run: sh tools/chart-setup-test.sh ${{ secrets.API_KEY }}
 
-      - name: Install Kubeaudit
+      - name: Download Kubeaudit
         run: wget https://github.com/Shopify/kubeaudit/releases/download/v0.21.0/kubeaudit_0.21.0_linux_amd64.tar.gz
       
       - name: Extract archive
@@ -34,3 +34,34 @@ jobs:
       
       - name: Run Kubeaudit
         run: ./kubeaudit all
+  kube-bench:
+    name: Kube-bench scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v1
+      with:
+        version: v3.8.1
+
+    - name: Create kind cluster
+      uses: helm/kind-action@v1.2.0
+
+    - name: Run cluster set up script
+      run: sh tools/chart-setup-test.sh ${{ secrets.API_KEY }}
+    
+    - name: Download Kube-bench
+      run: wget https://github.com/aquasecurity/kube-bench/releases/download/v0.6.10/kube-bench_0.6.10_linux_amd64.tar.gz
+    
+    - name: Extract archive
+      run: tar -xf kube-bench_0.6.10_linux_amd64.tar.gz
+    
+    - name: Run Kube-bench
+      run: ./kubebench --config-dir cfg
+      
+      
+      
