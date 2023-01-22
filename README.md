@@ -2,6 +2,8 @@
 
 ## Deployment Steps
 
+These steps are now compiled into Python and shell scripts in the [tools](https://github.com/Leosimetti/SNE-RP1/tree/main/tools) directory. 
+
 0. Generate TLS certificates and keys. The following files should be in `rp-vault/tls`:
     * `ca-key.pem` (with private key)
     * `ca.pem` (with cert)
